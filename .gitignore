@@ -1,0 +1,10 @@
+
+# ViM
+*.swp
+
+# IntelliJ project files
+.idea/
+
+# Scala
+target/
+**/target/
