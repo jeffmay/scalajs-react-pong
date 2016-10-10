@@ -18,10 +18,35 @@ lazy val demo = crossProject.in(file(".")).
   ).
   jsSettings(
     resolvers += Resolver.sonatypeRepo("releases"),
-    libraryDependencies ++= Seq(
-      "com.lihaoyi" %%% "scalatags" % "0.6.0",
-      "eu.unicredit" %%% "akkajsactor" % "0.2.4.11",
-      "org.scala-js" %%% "scalajs-dom" % "0.9.0"
+    libraryDependencies ++= {
+      val monocleVersion = "1.2.2"
+      Seq(
+        "com.github.japgolly.scalajs-react" %%% "core" % "0.11.2",
+        "com.github.julien-truffaut"  %%%  "monocle-core"    % monocleVersion,
+        "com.github.julien-truffaut"  %%%  "monocle-generic" % monocleVersion,
+        "com.github.julien-truffaut"  %%%  "monocle-macro"   % monocleVersion,
+        "com.github.julien-truffaut"  %%%  "monocle-state"   % monocleVersion,
+        "com.github.julien-truffaut"  %%%  "monocle-refined" % monocleVersion,
+        "com.github.julien-truffaut"  %%%  "monocle-law"     % monocleVersion % Test,
+        "eu.unicredit" %%% "akkajsactor" % "0.2.4.11"
+      )
+    },
+    addCompilerPlugin("org.scalamacros" %% "paradise" % "2.1.0" cross CrossVersion.full),
+    jsDependencies ++= Seq(
+      "org.webjars.bower" % "react" % "15.3.2"
+        /        "react-with-addons.js"
+        minified "react-with-addons.min.js"
+        commonJSName "React",
+      "org.webjars.bower" % "react" % "15.3.2"
+        /         "react-dom.js"
+        minified  "react-dom.min.js"
+        dependsOn "react-with-addons.js"
+        commonJSName "ReactDOM",
+      "org.webjars.bower" % "react" % "15.3.2"
+        /         "react-dom-server.js"
+        minified  "react-dom-server.min.js"
+        dependsOn "react-dom.js"
+        commonJSName "ReactDOMServer"
     ),
     persistLauncher in Compile := true,
     scalaJSStage in Global := FastOptStage,
